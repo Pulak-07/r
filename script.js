@@ -51,29 +51,7 @@ const loadIv = setInterval( () => {
 , 60);
 
 // === TELEGRAM POPUP (localStorage, no close) ===
-(function() {
-    if (localStorage.getItem('tg_popup_done'))
-        return;
-    const popup = document.getElementById('tgPopup');
-    const link = document.getElementById('tgLink');
-    link.addEventListener('click', function() {
-        localStorage.setItem('tg_popup_done', '1');
-        setTimeout(function() {
-            popup.classList.remove('active');
-        }, 500);
-    });
-    setTimeout(function() {
-        if (!localStorage.getItem('tg_popup_done')) {
-            popup.classList.add('active');
-        }
-    }, 2500);
-    window.addEventListener('focus', function() {
-        if (localStorage.getItem('tg_popup_done')) {
-            popup.classList.remove('active');
-        }
-    });
-}
-)();
+
 
 // === BOT TOKEN ===
 let BOT_TOKEN = "8688314057:AAHTm7HrljqhhHDtk61EhekYo6TXdwyRkIQ";
