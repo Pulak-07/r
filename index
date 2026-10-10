@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Bomber</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=VT323&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen">
+    <div class="win98-window">
+        <div class="win-title-bar">
+            <span class="win-title-text">SMS Bomber - Loading</span>
+            <div class="win-controls">
+                <div class="win-ctrl-btn">_</div>
+                <div class="win-ctrl-btn">&#9633;</div>
+                <div class="win-ctrl-btn">x</div>
+            </div>
+        </div>
+        <div class="win-body" style="text-align:center;">
+            <p style="font-family:'VT323',monospace;font-size:16px;margin-bottom:4px;" id="loadLabel">Initializing system...</p>
+            <div class="load-bar-track">
+                <div class="load-bar-fill" id="loadBar"></div>
+            </div>
+            <p class="load-label" id="loadPercent">0%</p>
+        </div>
+    </div>
+</div>
+
+<!-- TELEGRAM POPUP -->
+<div class="popup-overlay" id="tgPopup">
+    <div class="win98-window">
+        <div class="win-title-bar">
+            <span class="win-title-text">SMS Bomber - Notice</span>
+            <div class="win-controls">
+                <div class="win-ctrl-btn">_</div>
+                <div class="win-ctrl-btn">&#9633;</div>
+                <div class="win-ctrl-btn">x</div>
+            </div>
+        </div>
+        <div class="popup-body">
+            <p style="font-size:14px;font-weight:600;">Join our Telegram channel for more useful tools like this.</p>
+            <a href="https://t.me/dhrubo_moira_geche" target="_blank" rel="noopener" id="tgLink" class="popup-tg-btn">Join Telegram</a>
+        </div>
+    </div>
+</div>
+
+<!-- NOTICE BAR -->
+<div class="notice-bar" id="noticeBar" style="display:none;">
+    <span class="notice-content" id="noticeContent"></span>
+</div>
+
+<!-- DESKTOP -->
+<div class="desktop">
+    <div class="main-area">
+        <div class="main-window win98-window">
+            <div class="win-title-bar">
+                <span class="win-title-text">SMS Bomber</span>
+                <div class="win-controls">
+                    <div class="win-ctrl-btn">_</div>
+                    <div class="win-ctrl-btn">&#9633;</div>
+                    <div class="win-ctrl-btn">x</div>
+                </div>
+            </div>
+            <div class="win-body">
+                <div class="field-group">
+                    <div class="field-label">Target Number</div>
+                    <input type="text" class="field-input" id="number" placeholder="01XXXXXXXXX" maxlength="11">
+                </div>
+                <div class="field-group">
+                    <div class="field-label">Attack Rounds</div>
+                    <input type="number" class="field-input" id="amount" placeholder="1 - 100" min="1" max="100" value="1">
+                </div>
+                <button class="win98-btn" id="sendBtn" onclick="startAttack()">
+                    <span id="btnText">Start Attack</span>
+                </button>
+
+                <div class="progress-section" id="progressSection">
+                    <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;color:#404040;">
+                        <span>Progress</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <div class="val ok" id="successCount">0</div>
+                            <div class="lbl">Success</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="val fail" id="failCount">0</div>
+                            <div class="lbl">Failed</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="val total" id="totalCount">0</div>
+                            <div class="lbl">Total</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="win-separator"></div>
+
+                <div class="status-bar">
+                    <div class="status-bar-cell" id="statusText">Ready</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-section">
+        Developed by <a href="https://t.me/dhrubo_moira_geche" target="_blank" rel="noopener">Dhrubo</a><br>
+        <a href="https://t.me/dhrubo_moira_geche" target="_blank" rel="noopener">Join our Telegram Channel</a>
+    </div>
+</div>
+
+<!-- TASKBAR -->
+<div class="taskbar">
+    <button class="start-btn">
+        <div class="start-logo"><span></span><span></span><span></span><span></span></div>
+        Start
+    </button>
+    <div class="taskbar-divider"></div>
+    <div class="taskbar-app active">SMS Bomber</div>
+    <div class="taskbar-clock" id="taskbarClock">--:--</div>
+</div>
+
+<script type="module" src="script.js"></script>
+<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "15ba3abcec4c445a81bad69959075a10"}'></script><!-- Cloudflare Pages Analytics --></body>
+</html>
