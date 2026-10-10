@@ -1,0 +1,364 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --win-bg: #c0c0c0;
+    --win-light: #ffffff;
+    --win-dark: #808080;
+    --win-darker: #404040;
+    --win-title: #000080;
+    --win-title-inactive: #808080;
+    --win-title-text: #ffffff;
+    --desktop-top: #008080;
+    --desktop-bot: #c0c0c0;
+    --input-bg: #ffffff;
+    --btn-face: #c0c0c0;
+    --field-bg: #b8d8c8;
+    --accent: #000080;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'IBM Plex Mono', 'Pixelify Sans', monospace;
+    font-size: 13px;
+    color: #000;
+    overflow-x: hidden;
+    background: var(--desktop-top);
+}
+
+/* === LOADING SCREEN === */
+.loading-screen {
+    position: fixed; inset: 0;
+    background: #008080;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 10000;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+.loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loading-screen .win98-window {
+    width: 340px;
+}
+.loading-screen .load-bar-track {
+    width: 100%; height: 22px;
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #404040;
+    border-right: 2px solid #404040;
+    padding: 2px;
+    margin-top: 10px;
+}
+.loading-screen .load-bar-fill {
+    height: 100%; width: 0%;
+    background: repeating-linear-gradient(
+        90deg,
+        #000080 0px, #000080 12px,
+        #4040c0 12px, #4040c0 14px
+    );
+    transition: width 0.3s;
+}
+.loading-screen .load-label {
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin-top: 8px;
+    text-align: center;
+}
+
+/* === TELEGRAM POPUP (no close button) === */
+.popup-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none; align-items: center; justify-content: center;
+    z-index: 9999;
+}
+.popup-overlay.active { display: flex; }
+.popup-overlay .win98-window { width: 380px; max-width: 92vw; }
+.popup-body { padding: 16px; text-align: center; line-height: 1.6; }
+.popup-body p { margin-bottom: 12px; font-size: 13px; }
+.popup-tg-btn {
+    display: inline-block;
+    margin-top: 8px; padding: 6px 28px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px; font-weight: 600;
+    background: #c0c0c0; color: #000; border: none; cursor: pointer;
+    border-top: 2px solid #fff; border-left: 2px solid #fff;
+    border-bottom: 2px solid #404040; border-right: 2px solid #404040;
+}
+.popup-tg-btn:active {
+    border-top: 2px solid #404040; border-left: 2px solid #404040;
+    border-bottom: 2px solid #fff; border-right: 2px solid #fff;
+}
+
+/* === DESKTOP === */
+.desktop {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    background: linear-gradient(180deg, var(--desktop-top) 0%, var(--desktop-bot) 100%);
+    padding-bottom: 36px;
+}
+
+/* === WIN98 WINDOW === */
+.win98-window {
+    background: var(--win-bg);
+    border-top: 2px solid var(--win-light);
+    border-left: 2px solid var(--win-light);
+    border-bottom: 2px solid var(--win-darker);
+    border-right: 2px solid var(--win-darker);
+    box-shadow: 1px 1px 0 #000;
+}
+.win-title-bar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    padding: 3px 4px;
+    display: flex; align-items: center; justify-content: space-between;
+    user-select: none;
+}
+.win-title-bar.inactive {
+    background: linear-gradient(90deg, #808080, #b0b0b0);
+}
+.win-title-text {
+    color: #fff; font-weight: 700; font-size: 12px;
+    font-family: 'Pixelify Sans', sans-serif;
+    letter-spacing: 0.5px;
+    display: flex; align-items: center; gap: 4px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.win-title-text img, .win-title-text .win-icon {
+    width: 16px; height: 16px; flex-shrink: 0;
+}
+.win-controls { display: flex; gap: 2px; flex-shrink: 0; }
+.win-ctrl-btn {
+    width: 18px; height: 16px;
+    background: var(--win-bg);
+    border-top: 2px solid var(--win-light);
+    border-left: 2px solid var(--win-light);
+    border-bottom: 2px solid var(--win-darker);
+    border-right: 2px solid var(--win-darker);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; line-height: 1; cursor: default;
+    padding-bottom: 2px;
+}
+.win-ctrl-btn:active {
+    border-top: 2px solid var(--win-darker);
+    border-left: 2px solid var(--win-darker);
+    border-bottom: 2px solid var(--win-light);
+    border-right: 2px solid var(--win-light);
+}
+.win-body { padding: 12px; }
+
+/* === MAIN CARD AREA === */
+.main-area {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px 12px;
+}
+.main-window { width: 100%; max-width: 420px; }
+
+/* === FORM ELEMENTS === */
+.field-group { margin-bottom: 14px; }
+.field-label {
+    font-size: 12px; font-weight: 600; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 4px;
+}
+.field-input {
+    width: 100%; padding: 5px 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    background: var(--input-bg);
+    color: #000;
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+    outline: none;
+}
+.field-input:focus {
+    outline: 1px dotted #000;
+    outline-offset: -4px;
+}
+
+.win98-btn {
+    width: 100%; padding: 7px 16px;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 15px; font-weight: 700;
+    background: var(--btn-face); color: #000; border: none; cursor: pointer;
+    border-top: 2px solid var(--win-light);
+    border-left: 2px solid var(--win-light);
+    border-bottom: 2px solid var(--win-darker);
+    border-right: 2px solid var(--win-darker);
+    letter-spacing: 1px;
+}
+.win98-btn:active {
+    border-top: 2px solid var(--win-darker);
+    border-left: 2px solid var(--win-darker);
+    border-bottom: 2px solid var(--win-light);
+    border-right: 2px solid var(--win-light);
+}
+.win98-btn:disabled {
+    color: #808080; cursor: not-allowed;
+}
+
+/* === PROGRESS === */
+.progress-section { display: none; margin-top: 14px; }
+.progress-track {
+    width: 100%; height: 22px; background: var(--win-bg);
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+    padding: 2px;
+}
+.progress-fill {
+    height: 100%; width: 0%;
+    background: repeating-linear-gradient(
+        90deg,
+        #000080 0px, #000080 12px,
+        #4040c0 12px, #4040c0 14px
+    );
+    transition: width 0.4s;
+}
+.stats-row {
+    display: flex; gap: 8px; margin-top: 10px;
+}
+.stat-box {
+    flex: 1; text-align: center; padding: 6px 4px;
+    background: var(--win-bg);
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #404040;
+    border-right: 2px solid #404040;
+    font-family: 'VT323', monospace;
+}
+.stat-box .val { font-size: 22px; font-weight: 700; }
+.stat-box .val.ok { color: #008000; }
+.stat-box .val.fail { color: #ff0000; }
+.stat-box .val.total { color: #000080; }
+.stat-box .lbl { font-size: 11px; color: #404040; font-family: 'IBM Plex Mono', monospace; }
+
+/* === SEPARATOR === */
+.win-separator {
+    height: 2px; margin: 12px 0;
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #fff;
+}
+
+/* === FOOTER === */
+.footer-section {
+    padding: 8px 12px;
+    text-align: center; font-size: 11px; color: #404040;
+}
+.footer-section a {
+    color: #000080; text-decoration: underline;
+}
+.footer-section a:visited { color: #800080; }
+
+/* === TASKBAR === */
+.taskbar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 36px;
+    background: var(--win-bg);
+    border-top: 2px solid var(--win-light);
+    display: flex; align-items: center;
+    padding: 2px 4px;
+    gap: 4px;
+    z-index: 1000;
+}
+.start-btn {
+    height: 28px; padding: 2px 8px;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 13px; font-weight: 700;
+    background: var(--win-bg); border: none; cursor: pointer;
+    border-top: 2px solid var(--win-light);
+    border-left: 2px solid var(--win-light);
+    border-bottom: 2px solid var(--win-darker);
+    border-right: 2px solid var(--win-darker);
+    display: flex; align-items: center; gap: 4px;
+}
+.start-btn:active {
+    border-top: 2px solid var(--win-darker);
+    border-left: 2px solid var(--win-darker);
+    border-bottom: 2px solid var(--win-light);
+    border-right: 2px solid var(--win-light);
+}
+.start-btn .start-logo {
+    width: 18px; height: 18px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+}
+.start-btn .start-logo span:nth-child(1) { background: #ff0000; }
+.start-btn .start-logo span:nth-child(2) { background: #00ff00; }
+.start-btn .start-logo span:nth-child(3) { background: #0000ff; }
+.start-btn .start-logo span:nth-child(4) { background: #ffff00; }
+.taskbar-divider {
+    width: 2px; height: 24px;
+    border-left: 1px solid var(--win-darker);
+    border-right: 1px solid var(--win-light);
+    margin: 0 2px;
+}
+.taskbar-app {
+    height: 28px; padding: 2px 12px;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 12px; font-weight: 400;
+    background: var(--win-bg); border: none; cursor: default;
+    border-top: 2px solid var(--win-light);
+    border-left: 2px solid var(--win-light);
+    border-bottom: 2px solid var(--win-darker);
+    border-right: 2px solid var(--win-darker);
+    display: flex; align-items: center; gap: 4px;
+    max-width: 180px;
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+.taskbar-app.active {
+    border-top: 2px solid var(--win-darker);
+    border-left: 2px solid var(--win-darker);
+    border-bottom: 2px solid var(--win-light);
+    border-right: 2px solid var(--win-light);
+    background: #b0b0b0;
+    font-weight: 700;
+}
+.taskbar-clock {
+    margin-left: auto;
+    height: 28px; padding: 2px 10px;
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+    background: var(--win-bg);
+    border-top: 2px solid var(--win-darker);
+    border-left: 2px solid var(--win-darker);
+    border-bottom: 2px solid var(--win-light);
+    border-right: 2px solid var(--win-light);
+    display: flex; align-items: center;
+}
+
+/* === STATUS BAR (inside window) === */
+.status-bar {
+    margin-top: 8px;
+    display: flex; gap: 2px;
+}
+.status-bar-cell {
+    padding: 3px 8px; font-size: 11px;
+    background: var(--win-bg);
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+    color: #404040;
+}
+.status-bar-cell:first-child { flex: 1; }
+
+/* === NOTICE BAR === */
+.notice-bar {
+    display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9997;
+    padding: 4px 16px; font-size: 12px; font-family: 'IBM Plex Mono', monospace;
+    background: #000080; color: #fff; text-align: center;
+    overflow: hidden; white-space: nowrap;
+}
+.notice-content { display: inline-block; padding-left: 100%; animation: marquee 18s linear infinite; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+    .main-window { max-width: 100%; }
+    .stats-row { flex-wrap: wrap; }
+    .stat-box { min-width: 30%; }
+    .popup-overlay .win98-window { width: 95vw; }
+    .taskbar-app { max-width: 120px; font-size: 11px; }
+}
